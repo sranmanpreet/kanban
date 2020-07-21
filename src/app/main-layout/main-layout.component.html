@@ -1,90 +1,26 @@
 <app-navbar></app-navbar>
 
-<div class="board-wrapper">
+<div class="board-wrapper" *ngFor="let board of boards" cdkDropListGroup>
     <div class="board-title">
         <div class="board-title-text">
-            Board Name
+            {{board.name}}
         </div>
     </div>
     <div class="board-body">
         <div class="board-columns">
-            <div class="board-column">
+            <div class="board-column" *ngFor="let column of board.columns">
                 <div class="board-column-title">
-                    Ideas
+                    {{column.title}}
                 </div>
-                <div class="board-column-tasks">
-                    <div class="board-column-task">
-                        Idea Get up
-                    </div>
-                    <div class="board-column-task">
-                        Idea Get up
-                    </div>
-                    <div class="board-column-task">
-                        Idea Get up
-                    </div>
-                    <div class="board-column-task">
-                        Idea Get up
+                <div class="board-column-tasks" cdkDropList [cdkDropListData]="column.tasks" (cdkDropListDropped)="drop($event)">
+                    <div class="board-column-task" *ngFor="let task of column.tasks" cdkDrag>
+                        {{task}}
                     </div>
                 </div>
+                <!--                 <div class="add-task">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                </div> -->
             </div>
-            <div class="board-column">
-                <div class="board-column-title">
-                    Ideas
-                </div>
-                <div class="board-column-tasks">
-                    <div class="board-column-task">
-                        Idea Get up
-                    </div>
-                    <div class="board-column-task">
-                        Idea Get up
-                    </div>
-                    <div class="board-column-task">
-                        Idea Get up
-                    </div>
-                    <div class="board-column-task">
-                        Idea Get up
-                    </div>
-                </div>
-            </div>
-            <div class="board-column">
-                <div class="board-column-title">
-                    Ideas
-                </div>
-                <div class="board-column-tasks">
-                    <div class="board-column-task">
-                        Idea Get up
-                    </div>
-                    <div class="board-column-task">
-                        Idea Get up
-                    </div>
-                    <div class="board-column-task">
-                        Idea Get up
-                    </div>
-                    <div class="board-column-task">
-                        Idea Get up
-                    </div>
-                </div>
-            </div>
-            <div class="board-column">
-                <div class="board-column-title">
-                    Ideas
-                </div>
-                <div class="board-column-tasks">
-                    <div class="board-column-task">
-                        Idea Get up
-                    </div>
-                    <div class="board-column-task">
-                        Idea Get up
-                    </div>
-                    <div class="board-column-task">
-                        Idea Get up
-                    </div>
-                    <div class="board-column-task">
-                        Idea Get up
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 </div>
