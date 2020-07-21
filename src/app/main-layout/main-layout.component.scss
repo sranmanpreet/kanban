@@ -1,0 +1,49 @@
+@import "../../main.scss";
+.board-wrapper {
+    .board-title {
+        background: rgba($brown, 0.8);
+        .board-title-text {
+            padding: 5px 15px;
+            color: $white;
+        }
+    }
+    .board-body {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow-x: auto;
+        height: 80vh;
+        .board-columns {
+            display: flex;
+            flex-grow: 1;
+            min-width: 0;
+            min-height: 0;
+            .board-column {
+                background: rgba($white, 0.5);
+                min-width: 300px;
+                margin: 50px;
+                padding: 25px;
+                &:not(:first-child) {
+                    margin-left: 0;
+                }
+                .board-column-title {
+                    padding: 5px 10px;
+                    font-weight: 700;
+                    font-size: 1.2rem;
+                    text-transform: uppercase;
+                }
+                .board-column-tasks {
+                    .board-column-task {
+                        background: $white;
+                        padding: 5px 15px;
+                        margin-bottom: 5px;
+                        border-radius: 2px;
+                        font-size: 0.9rem;
+                        border-bottom: 1px solid rgba($primary, 0.5);
+                        box-shadow: 0px 2px 15px 2px black 0.068;
+                    }
+                }
+            }
+        }
+    }
+}
