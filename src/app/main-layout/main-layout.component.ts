@@ -1,46 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Board } from '../shared/board.model';
 import { Column } from '../shared/column.model';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { EditService } from '../shared/edit.service';
+import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { BoardDialogComponent } from '../board-dialog/board-dialog.component';
 
-const boards = [
-  new Board("Project Tasks",
-    [
-      new Column("POC", ['Get to work',
-        'Pick up groceries',
-        'Go home',
-        'Fall asleep']),
-      new Column("Todo", ['Get to work',
-        'Pick up groceries',
-        'Go home',
-        'Fall asleep']),
-      new Column("In progress", ['Get to work',
-        'Pick up groceries',
-        'Go home',
-        'Fall asleep']),
-      new Column("Completed", ['Get to work',
-        'Pick up groceries',
-        'Go home',
-        'Fall asleep']),
-
-    ]
-  )
-];
 
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.component.html',
   styleUrls: ['./main-layout.component.scss']
 })
-export class MainLayoutComponent implements OnInit {
+export class MainLayoutComponent implements OnInit, OnDestroy {
+
+  editMode: boolean;
+  editModeSubscription: Subscription;
 
   boards: Board[];
 
-  constructor() {
-    this.boards = boards;
+  constructor(public dialog: MatDialog, private editService: EditService) {
+    this.editModeSubscription = this.editService.editModeObserver.subscribe(
+      (flag) => {
+        this.editMode = flag;
+      });
+    this.boards = this.editService.boards;
   }
 
   ngOnInit(): void {
+  }
+
+  animal: string;
+  name: string;
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(BoardDialogComponent, {
+      width: '250px',
+      data: {name: this.name, animal: this.animal}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.animal = result;
+    });
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -52,6 +55,10 @@ export class MainLayoutComponent implements OnInit {
                         event.previousIndex,
                         event.currentIndex);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.editModeSubscription.unsubscribe();
   }
 
 }

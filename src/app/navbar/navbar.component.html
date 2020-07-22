@@ -4,4 +4,10 @@
             kanban
         </a>
     </div>
+    <div class="navbar-end">
+        <div class="navbar-item">
+            <input id="editMode" type="checkbox" name="editMode" [(ngModel)]="editMode" class="switch" (change)="toggleEditMode($event)">
+            <label for="editMode">{{editMode?"Disable": "Enable"}} Editing</label>
+        </div>
+    </div>
 </nav>

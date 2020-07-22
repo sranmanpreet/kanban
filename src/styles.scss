@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "../node_modules/bulma/bulma.sass";
+@import "../node_modules/bulma-tooltip/dist/css/bulma-tooltip.min.css";
+@import "../node_modules/bulma-switch/dist/css/bulma-switch.sass";
 @import 'main.scss';
 // Global Styles
 html,
@@ -45,3 +47,5 @@ html {
  ::-webkit-scrollbar-thumb:hover {
     background: #b30000;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

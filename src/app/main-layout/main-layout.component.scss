@@ -2,9 +2,14 @@
 .board-wrapper {
     .board-title {
         background: rgba($brown, 0.8);
+        height: 7vh;
         .board-title-text {
             padding: 5px 15px;
             color: $white;
+            line-height: 5vh;
+            .add-board {
+                float: right;
+            }
         }
     }
     .board-body {
@@ -35,7 +40,8 @@
                     text-transform: uppercase;
                 }
                 .board-column-tasks {
-                    .cdk-drag-preview,
+                    height: 50vh;
+                    overflow-y: auto;
                     .board-column-task {
                         background: $white;
                         padding: 5px 15px;
@@ -52,17 +58,31 @@
                 }
                 .add-task {
                     position: absolute;
-                    bottom: 20px;
+                    bottom: 5px;
                     right: 20px;
                     font-size: 2rem;
-                    color: $pink;
+                    color: lighten($color: $pink, $amount: 30);
                     &:hover {
                         cursor: pointer;
                         color: lighten($color: $pink, $amount: 10);
                     }
                     &:active {
-                        color: lighten($color: $pink, $amount: 20);
+                        color: $pink;
                     }
+                }
+            }
+            .add-column {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 3rem;
+                color: darken($color: $primary, $amount: 20);
+                &:hover {
+                    cursor: pointer;
+                    color: lighten($color: $primary, $amount: 15);
+                }
+                &:active {
+                    color: $primary;
                 }
             }
         }
