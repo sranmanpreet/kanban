@@ -49,8 +49,8 @@ export class EditService {
     this.editModeObserver.next(flag);
   }
 
-  addBoard(name: string, columns: Column[]) {
-    this.boards.push(new Board(name, columns));
+  addBoard(board: Board) {
+    this.boards.push(new Board(board.name, board.columns));
   }
 
   updateBoardName(name: string, boardIndex: number) {

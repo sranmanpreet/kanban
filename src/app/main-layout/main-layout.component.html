@@ -1,9 +1,10 @@
 <app-navbar></app-navbar>
 
-<div class="board-wrapper" *ngFor="let board of boards" cdkDropListGroup>
+<div class="board-wrapper" *ngFor="let board of boards; index as boardIndex" cdkDropListGroup>
     <div class="board-title">
         <div class="board-title-text">
             {{board.name}}
+            <span class="edit-board has-tooltip-primary has-tooltip-bottom" data-tooltip="Edit Board" (click)="openDialog(boardIndex)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
             <div class="add-board" *ngIf="editMode">
                 <button class="button is-small is-primary" (click)="openDialog()">New Board</button>
             </div>

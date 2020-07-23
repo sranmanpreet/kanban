@@ -1,8 +1,13 @@
-<h1 mat-dialog-title>Board Title</h1>
+<h1 mat-dialog-title>Board</h1>
+<form #boardForm="ngForm" (ngSubmit)="update(boardForm)"></form>
 <div mat-dialog-content>
-
+    <div class="field">
+        <div class="control">
+            <input class="input is-small" name="name" [ngModel]="data.name" type="text" placeholder="Board Name">
+        </div>
+    </div>
 </div>
 <div mat-dialog-actions>
-    <button class="button is-primary is-small" (click)="onNoClick()">No Thanks</button>
-    <button class="button is-primary is-small" [mat-dialog-close] cdkFocusInitial>Ok</button>
+    <button class="button is-primary is-small" [mat-dialog-close]="data" cdkFocusInitial>Update</button>
+    <button class="button is-small" (click)="onNoClick()">Cancel</button>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Board } from '../shared/board.model';
 import { Column } from '../shared/column.model';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
@@ -13,7 +13,7 @@ import { BoardDialogComponent } from '../board-dialog/board-dialog.component';
   templateUrl: './main-layout.component.html',
   styleUrls: ['./main-layout.component.scss']
 })
-export class MainLayoutComponent implements OnInit, OnDestroy {
+export class MainLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   editMode: boolean;
   editModeSubscription: Subscription;
@@ -27,22 +27,31 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
       });
     this.boards = this.editService.boards;
   }
-
+  ngAfterViewInit(): void {
+    
+  }
+  
   ngOnInit(): void {
   }
 
-  animal: string;
-  name: string;
 
-  openDialog(): void {
+  openDialog(boardIndex: number): void {
+    const ifNewBoard = (boardIndex == null);
+    console.log(boardIndex);
     const dialogRef = this.dialog.open(BoardDialogComponent, {
       width: '250px',
-      data: {name: this.name, animal: this.animal}
+      data: ifNewBoard? new Board("", []): this.boards[boardIndex]
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.animal = result;
+    dialogRef.afterClosed().subscribe((result: Board) => {
+      console.log(result);
+      if(result && result.name && result.name.length > 0){
+        if(ifNewBoard){
+          this.editService.addBoard(result);
+        } else {
+          this.editService.updateBoardName(result.name, boardIndex);
+        }
+      }
     });
   }
 
@@ -51,9 +60,9 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
     }
   }
 

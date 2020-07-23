@@ -12,13 +12,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
   editMode: boolean = true;
   private editModeSubscription: Subscription;
 
-  constructor(private editService: EditService) { }
-
-  ngOnInit(): void {
+  constructor(public editService: EditService) { 
+    this.editService.editModeObserver.next(this.editMode);
     this.editModeSubscription = this.editService.editModeObserver.subscribe(
       (flag) => {
         this.editMode = flag;
-      });
+      });  
+  }
+
+  ngOnInit(): void {
+ 
   }
 
   toggleEditMode(event: Event){

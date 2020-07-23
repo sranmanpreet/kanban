@@ -4,6 +4,17 @@
             kanban
         </a>
     </div>
+    <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          Boards
+        </a>
+
+        <div class="navbar-dropdown">
+            <a class="navbar-item" *ngFor="let board of editService.boards">
+            {{board.name}}
+          </a>
+        </div>
+    </div>
     <div class="navbar-end">
         <div class="navbar-item">
             <input id="editMode" type="checkbox" name="editMode" [(ngModel)]="editMode" class="switch" (change)="toggleEditMode($event)">
