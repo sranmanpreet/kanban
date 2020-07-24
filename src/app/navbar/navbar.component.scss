@@ -1,3 +1,4 @@
+@import '../../main.scss';
 .navbar-brand {
     .navbar-item {
         font-weight: 800;
@@ -12,4 +13,8 @@
             color: read;
         }
     }
+}
+
+.navbar-link {
+    color: $white;
 }

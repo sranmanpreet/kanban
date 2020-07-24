@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { EditService } from '../shared/edit.service';
 import { Subscription } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,13 +10,13 @@ import { Subscription } from 'rxjs';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 
-  editMode: boolean = true;
+  editMode: boolean;
   private editModeSubscription: Subscription;
 
   @Output() boardIndex = new EventEmitter<number>();
 
-  constructor(public editService: EditService) { 
-    this.editService.editModeObserver.next(this.editMode);
+  constructor(public editService: EditService, private cookieService: CookieService) { 
+    this.fetchEditMode();
     this.editModeSubscription = this.editService.editModeObserver.subscribe(
       (flag) => {
         this.editMode = flag;
@@ -24,6 +25,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
  
+  }
+
+  fetchEditMode(){
+    if(this.cookieService.check('editmode')){
+      this.editMode = JSON.parse(this.cookieService.get('editmode'));
+      this.editService.editModeObserver.next(this.editMode);
+    } else {
+      this.editMode = false;
+    }
   }
 
   toggleEditMode(event: Event){

@@ -1,6 +1,13 @@
 <app-navbar (boardIndex)="loadBoardDetails($event)"></app-navbar>
 
-<div class="board-wrapper" cdkDropListGroup>
+<div class="board-wrapper" *ngIf="!board">
+    <div class="no-board">
+        <h1>No Board available!!!</h1>
+        <button *ngIf="editMode" class="button is-large is-primary" (click)="openDialog()">Create New Board</button>
+    </div>
+</div>
+
+<div class="board-wrapper" cdkDropListGroup *ngIf="board">
     <div class="board-title">
         <div class="board-title-text">
             <span *ngIf="(editMode && !editBoardNameToggle) || (!editMode)">{{board.name}}</span>
@@ -18,11 +25,13 @@
         <div class="board-columns">
             <div class="board-column" *ngFor="let column of board.columns; index as columnIndex">
                 <div class="board-column-title">
-                    {{column.title}}
+                    {{column.title}} <span *ngIf="editMode" class="editColumn" (click)="editColumn(column.title, columnIndex)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+                    <span *ngIf="editMode" class="deleteColumn" (click)="deleteColumn(columnIndex)"><i class="fa fa-times" aria-hidden="true"></i></span>
                 </div>
                 <div class="board-column-tasks" cdkDropList [cdkDropListData]="column.tasks" (cdkDropListDropped)="drop($event)">
-                    <div class="board-column-task" *ngFor="let task of column.tasks" cdkDrag>
-                        {{task}}
+                    <div class="board-column-task" *ngFor="let task of column.tasks; index as taskIndex" cdkDrag>
+                        {{task}} <span *ngIf="editMode" class="deleteTask" (click)="deleteTask(taskIndex, columnIndex)"><i class="fa fa-times" aria-hidden="true"></i></span>
+                        <span *ngIf="editMode" class="editTask" (click)="editTask(task, taskIndex, columnIndex)"><i class="fa fa-pencil" aria-hidden="true"></i></span>
                     </div>
                 </div>
                 <div class="add-task has-tooltip-primary" data-tooltip="Add Task" *ngIf="editMode" (click)="addTask(columnIndex)">

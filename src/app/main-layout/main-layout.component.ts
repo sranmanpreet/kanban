@@ -31,7 +31,9 @@ export class MainLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         this.editMode = flag;
       });
     this.boards = this.editService.boards;
-    this.loadBoardDetails(0);
+    if(this.boards.length){
+      this.loadBoardDetails(0);
+    }
   }
   ngAfterViewInit(): void {
 
@@ -83,18 +85,51 @@ export class MainLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  addTask(columnIndex: number){
-    const dialogRef = this.dialog.open(TaskDialogComponent, {
+  editColumn(title: string, columnIndex: number) {
+    const dialogRef = this.dialog.open(ColumnDialogComponent, {
       width: '250px',
-      data: ""
+      data: { title: title, columnIndex: columnIndex, boardIndex: this.boardIndex }
     });
 
-    dialogRef.afterClosed().subscribe((result: string) => {
-      console.log(result);
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.editService.addTask(result, columnIndex, this.boardIndex);
+        this.editService.updateColumnTitle(result.title, columnIndex, this.boardIndex);
       }
     });
+  }
+
+  deleteColumn(columnIndex: number) {
+    this.editService.deleteColumn(columnIndex, this.boardIndex);
+  }
+
+  addTask(columnIndex: number) {
+    const dialogRef = this.dialog.open(TaskDialogComponent, {
+      width: '250px',
+      data: { task: "", columnIndex: columnIndex, boardIndex: this.boardIndex }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.editService.addTask(result.task, columnIndex, this.boardIndex);
+      }
+    });
+  }
+
+  editTask(task, taskIndex, columnIndex) {
+    const dialogRef = this.dialog.open(TaskDialogComponent, {
+      width: '250px',
+      data: { task: task, taskIndex: taskIndex, columnIndex: columnIndex, boardIndex: this.boardIndex }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.editService.updateTask(result.task, taskIndex, columnIndex, this.boardIndex);
+      }
+    });
+  }
+
+  deleteTask(taskIndex: number, columnIndex: number) {
+    this.editService.deleteTask(taskIndex, columnIndex, this.boardIndex);
   }
 
   drop(event: CdkDragDrop<string[]>) {

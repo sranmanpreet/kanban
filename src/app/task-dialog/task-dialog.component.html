@@ -2,11 +2,11 @@
 <div mat-dialog-content>
     <div class="field">
         <div class="control">
-            <input #task class="input is-small" [(ngModel)]="data" type="text" placeholder="Task Description">
+            <input #task class="input is-small" [(ngModel)]="data.task" type="text" placeholder="Task Description">
         </div>
     </div>
 </div>
 <div mat-dialog-actions>
-    <button class="button is-primary is-small" [mat-dialog-close]="data" cdkFocusInitial type="button">Add</button>
+    <button class="button is-primary is-small" [mat-dialog-close]="data" cdkFocusInitial type="button">Update</button>
     <button class="button is-small" (click)="onNoClick()">Cancel</button>
 </div>

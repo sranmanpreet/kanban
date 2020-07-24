@@ -4,7 +4,7 @@
             kanban
         </a>
     </div>
-    <div class="navbar-item has-dropdown is-hoverable">
+    <div class="navbar-item has-dropdown is-hoverable" *ngIf="editService.boards.length">
         <a class="navbar-link">
           Boards
         </a>
