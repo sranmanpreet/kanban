@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogClose } from '@angular/material/dialog';
 import { Board } from '../shared/board.model';
 import { NgForm } from '@angular/forms';
 
@@ -9,6 +9,8 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./board-dialog.component.scss']
 })
 export class BoardDialogComponent implements OnInit {
+
+  @ViewChild('boardName') boardName: ElementRef;
 
   constructor(
     public dialogRef: MatDialogRef<BoardDialogComponent>,
@@ -21,9 +23,8 @@ export class BoardDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  update(f: NgForm) {
-    console.log(f.value);
-    this.dialogRef.componentInstance.data.name = f.value.name;
+  update() {
+    console.log(this.boardName.nativeElement.value);
   }
 
 

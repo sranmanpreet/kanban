@@ -1,3 +1,7 @@
+@import "~bulma/sass/utilities/initial-variables.sass";
+$tablet: 300px;
+$navbar-breakpoint: $tablet;
+
 /* You can add global styles to this file, and also import other style files */
 
 @import "../node_modules/bulma/bulma.sass";
@@ -47,5 +51,13 @@ html {
  ::-webkit-scrollbar-thumb:hover {
     background: #b30000;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}

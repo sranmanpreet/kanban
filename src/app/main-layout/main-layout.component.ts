@@ -6,6 +6,8 @@ import { EditService } from '../shared/edit.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { BoardDialogComponent } from '../board-dialog/board-dialog.component';
+import { ColumnDialogComponent } from '../column-dialog/column-dialog.component';
+import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
 
 
 @Component({
@@ -17,8 +19,11 @@ export class MainLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   editMode: boolean;
   editModeSubscription: Subscription;
+  editBoardNameToggle: boolean = false;
 
   boards: Board[];
+  board: Board;
+  boardIndex: number;
 
   constructor(public dialog: MatDialog, private editService: EditService) {
     this.editModeSubscription = this.editService.editModeObserver.subscribe(
@@ -26,31 +31,68 @@ export class MainLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         this.editMode = flag;
       });
     this.boards = this.editService.boards;
+    this.loadBoardDetails(0);
   }
   ngAfterViewInit(): void {
-    
+
   }
-  
+
   ngOnInit(): void {
   }
 
+  editBoardName() {
+    this.editBoardNameToggle = !this.editBoardNameToggle;
+  }
 
-  openDialog(boardIndex: number): void {
+  loadBoardDetails(boardIndex) {
+    this.board = this.boards[boardIndex];
+    this.boardIndex = boardIndex;
+  }
+
+
+  openDialog(boardIndex: number = null): void {
     const ifNewBoard = (boardIndex == null);
-    console.log(boardIndex);
     const dialogRef = this.dialog.open(BoardDialogComponent, {
       width: '250px',
-      data: ifNewBoard? new Board("", []): this.boards[boardIndex]
+      data: ifNewBoard ? new Board("", []) : this.boards[boardIndex]
     });
 
     dialogRef.afterClosed().subscribe((result: Board) => {
-      console.log(result);
-      if(result && result.name && result.name.length > 0){
-        if(ifNewBoard){
+      if (result && result.name && result.name.length > 0) {
+        if (ifNewBoard) {
           this.editService.addBoard(result);
+          this.loadBoardDetails(this.boards.length - 1);
         } else {
           this.editService.updateBoardName(result.name, boardIndex);
         }
+      }
+    });
+  }
+
+  addColumn() {
+    const dialogRef = this.dialog.open(ColumnDialogComponent, {
+      width: '250px',
+      data: ""
+    });
+
+    dialogRef.afterClosed().subscribe((result: string) => {
+      console.log(result);
+      if (result) {
+        this.editService.addColumn(this.boardIndex, result, new Array<string>());
+      }
+    });
+  }
+
+  addTask(columnIndex: number){
+    const dialogRef = this.dialog.open(TaskDialogComponent, {
+      width: '250px',
+      data: ""
+    });
+
+    dialogRef.afterClosed().subscribe((result: string) => {
+      console.log(result);
+      if (result) {
+        this.editService.addTask(result, columnIndex, this.boardIndex);
       }
     });
   }

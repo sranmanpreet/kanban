@@ -10,15 +10,15 @@
         </a>
 
         <div class="navbar-dropdown">
-            <a class="navbar-item" *ngFor="let board of editService.boards">
-            {{board.name}}
-          </a>
+            <a class="navbar-item" *ngFor="let board of editService.boards; index as boardIndex">
+                <span (click)="loadBoard(boardIndex)">{{board.name}}</span>
+            </a>
         </div>
     </div>
     <div class="navbar-end">
         <div class="navbar-item">
-            <input id="editMode" type="checkbox" name="editMode" [(ngModel)]="editMode" class="switch" (change)="toggleEditMode($event)">
-            <label for="editMode">{{editMode?"Disable": "Enable"}} Editing</label>
+            <input id="editMode" class="editModeToggle" type="checkbox" name="editMode" [(ngModel)]="editMode" class="switch is-small" (change)="toggleEditMode($event)">
+            <label for="editMode">Edit</label>
         </div>
     </div>
 </nav>

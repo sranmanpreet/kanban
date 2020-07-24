@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Task</h1>
+<div mat-dialog-content>
+    <div class="field">
+        <div class="control">
+            <input #task class="input is-small" [(ngModel)]="data" type="text" placeholder="Task Description">
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button class="button is-primary is-small" [mat-dialog-close]="data" cdkFocusInitial type="button">Add</button>
+    <button class="button is-small" (click)="onNoClick()">Cancel</button>
+</div>

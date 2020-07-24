@@ -8,6 +8,7 @@ import { Board } from './board.model';
 })
 export class EditService {
   editModeObserver = new Subject<boolean>();
+  currentBoard: Board;
   boards = new Array(
     new Board("Project Tasks",
       [
@@ -43,7 +44,7 @@ export class EditService {
     )
   );
 
-  constructor() { }
+  constructor() {}
 
   toggleEditMode(flag) {
     this.editModeObserver.next(flag);
@@ -62,6 +63,7 @@ export class EditService {
   }
 
   addColumn(boardIndex: number, title: string, tasks: string[]) {
+    console.log(boardIndex + "  " + title + "   " + tasks);
     this.boards[boardIndex].columns.push(new Column(title, tasks));
   }
 

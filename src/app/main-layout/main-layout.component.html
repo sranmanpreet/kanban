@@ -1,10 +1,14 @@
-<app-navbar></app-navbar>
+<app-navbar (boardIndex)="loadBoardDetails($event)"></app-navbar>
 
-<div class="board-wrapper" *ngFor="let board of boards; index as boardIndex" cdkDropListGroup>
+<div class="board-wrapper" cdkDropListGroup>
     <div class="board-title">
         <div class="board-title-text">
-            {{board.name}}
-            <span class="edit-board has-tooltip-primary has-tooltip-bottom" data-tooltip="Edit Board" (click)="openDialog(boardIndex)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+            <span *ngIf="(editMode && !editBoardNameToggle) || (!editMode)">{{board.name}}</span>
+            <input *ngIf="editMode && editBoardNameToggle" class="input is-small is-rounded" type="text" placeholder="Board Name" [(ngModel)]="board.name">
+            <span class="edit-board" (click)="editBoardName()">
+                <span *ngIf="editMode && editBoardNameToggle"><i class="fa fa-check" aria-hidden="true"></i></span>
+            <span *ngIf="editMode && !editBoardNameToggle"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+            </span>
             <div class="add-board" *ngIf="editMode">
                 <button class="button is-small is-primary" (click)="openDialog()">New Board</button>
             </div>
@@ -12,7 +16,7 @@
     </div>
     <div class="board-body">
         <div class="board-columns">
-            <div class="board-column" *ngFor="let column of board.columns">
+            <div class="board-column" *ngFor="let column of board.columns; index as columnIndex">
                 <div class="board-column-title">
                     {{column.title}}
                 </div>
@@ -21,11 +25,11 @@
                         {{task}}
                     </div>
                 </div>
-                <div class="add-task has-tooltip-primary" data-tooltip="Add Task" *ngIf="editMode">
+                <div class="add-task has-tooltip-primary" data-tooltip="Add Task" *ngIf="editMode" (click)="addTask(columnIndex)">
                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
                 </div>
             </div>
-            <div class="board-column add-column" *ngIf="editMode">
+            <div class="board-column add-column" *ngIf="editMode" (click)="addColumn()">
                 <span data-tooltip="Add Column"><i class="fa fa-plus-circle" aria-hidden="true"></i></span>
             </div>
         </div>

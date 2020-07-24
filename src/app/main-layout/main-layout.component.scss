@@ -4,6 +4,10 @@
         background: rgba($brown, 0.8);
         height: 7vh;
         .board-title-text {
+            input {
+                display: inline;
+                max-width: 200px;
+            }
             padding: 5px 15px;
             color: $white;
             line-height: 5vh;
@@ -51,7 +55,7 @@
                     text-transform: uppercase;
                 }
                 .board-column-tasks {
-                    height: 50vh;
+                    height: 48vh;
                     overflow-y: auto;
                     .board-column-task {
                         background: $white;

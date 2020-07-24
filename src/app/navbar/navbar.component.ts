@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { EditService } from '../shared/edit.service';
 import { Subscription } from 'rxjs';
 
@@ -11,6 +11,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   editMode: boolean = true;
   private editModeSubscription: Subscription;
+
+  @Output() boardIndex = new EventEmitter<number>();
 
   constructor(public editService: EditService) { 
     this.editService.editModeObserver.next(this.editMode);
@@ -26,6 +28,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   toggleEditMode(event: Event){
     this.editService.toggleEditMode(event.target['checked']);
+  }
+
+  loadBoard(boardIndex: number){
+    this.boardIndex.emit(boardIndex);
   }
 
   ngOnDestroy(): void {

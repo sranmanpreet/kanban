@@ -10,13 +10,17 @@ import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BoardDialogComponent } from './board-dialog/board-dialog.component';
+import { ColumnDialogComponent } from './column-dialog/column-dialog.component';
+import { TaskDialogComponent } from './task-dialog/task-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainLayoutComponent,
     NavbarComponent,
-    BoardDialogComponent
+    BoardDialogComponent,
+    ColumnDialogComponent,
+    TaskDialogComponent
   ],
   imports: [
     BrowserModule,
