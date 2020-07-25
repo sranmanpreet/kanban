@@ -10,8 +10,8 @@
         </a>
 
         <div class="navbar-dropdown">
-            <a class="navbar-item" *ngFor="let board of editService.boards; index as boardIndex">
-                <span (click)="loadBoard(boardIndex)">{{board.name}}</span>
+            <a class="navbar-item" *ngFor="let board of editService.boards; index as boardIndex" (click)="loadBoard(boardIndex)">
+                <span>{{board.name}}</span>
             </a>
         </div>
     </div>

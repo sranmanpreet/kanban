@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Board } from '../shared/board.model';
-import { Column } from '../shared/column.model';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { EditService } from '../shared/edit.service';
 import { Subscription } from 'rxjs';
@@ -21,22 +20,17 @@ export class MainLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   editModeSubscription: Subscription;
   editBoardNameToggle: boolean = false;
 
-  boards: Board[];
   board: Board;
   boardIndex: number;
 
   constructor(public dialog: MatDialog, private editService: EditService) {
+    this.loadBoardDetails(0);
     this.editModeSubscription = this.editService.editModeObserver.subscribe(
       (flag) => {
         this.editMode = flag;
       });
-    this.boards = this.editService.boards;
-    if(this.boards.length){
-      this.loadBoardDetails(0);
-    }
   }
   ngAfterViewInit(): void {
-
   }
 
   ngOnInit(): void {
@@ -47,34 +41,40 @@ export class MainLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadBoardDetails(boardIndex) {
-    this.board = this.boards[boardIndex];
+    this.board = this.editService.boards[boardIndex];
     this.boardIndex = boardIndex;
   }
 
 
-  openDialog(boardIndex: number = null): void {
+  addBoard(boardIndex: number = null): void {
     const ifNewBoard = (boardIndex == null);
     const dialogRef = this.dialog.open(BoardDialogComponent, {
       width: '250px',
-      data: ifNewBoard ? new Board("", []) : this.boards[boardIndex]
+      data: ifNewBoard ? new Board("", []) : this.editService.boards[boardIndex]
     });
 
     dialogRef.afterClosed().subscribe((result: Board) => {
       if (result && result.name && result.name.length > 0) {
         if (ifNewBoard) {
           this.editService.addBoard(result);
-          this.loadBoardDetails(this.boards.length - 1);
+          this.loadBoardDetails(this.editService.boards.length - 1);
         } else {
           this.editService.updateBoardName(result.name, boardIndex);
         }
       }
     });
+    this.loadBoardDetails(this.boardIndex);
+  }
+  
+  deleteBoard(){
+    this.editService.deleteBoard(this.boardIndex);
+    this.loadBoardDetails(this.boardIndex);
   }
 
   addColumn() {
     const dialogRef = this.dialog.open(ColumnDialogComponent, {
       width: '250px',
-      data: ""
+      data: { title: "" }
     });
 
     dialogRef.afterClosed().subscribe((result: string) => {
@@ -83,6 +83,7 @@ export class MainLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         this.editService.addColumn(this.boardIndex, result, new Array<string>());
       }
     });
+    this.loadBoardDetails(this.boardIndex);
   }
 
   editColumn(title: string, columnIndex: number) {
@@ -96,10 +97,12 @@ export class MainLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         this.editService.updateColumnTitle(result.title, columnIndex, this.boardIndex);
       }
     });
+    this.loadBoardDetails(this.boardIndex);
   }
 
   deleteColumn(columnIndex: number) {
     this.editService.deleteColumn(columnIndex, this.boardIndex);
+    this.loadBoardDetails(this.boardIndex);
   }
 
   addTask(columnIndex: number) {
@@ -113,6 +116,7 @@ export class MainLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         this.editService.addTask(result.task, columnIndex, this.boardIndex);
       }
     });
+    this.loadBoardDetails(this.boardIndex);
   }
 
   editTask(task, taskIndex, columnIndex) {
@@ -126,10 +130,12 @@ export class MainLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         this.editService.updateTask(result.task, taskIndex, columnIndex, this.boardIndex);
       }
     });
+    this.loadBoardDetails(this.boardIndex);
   }
 
   deleteTask(taskIndex: number, columnIndex: number) {
     this.editService.deleteTask(taskIndex, columnIndex, this.boardIndex);
+    this.loadBoardDetails(this.boardIndex);
   }
 
   drop(event: CdkDragDrop<string[]>) {

@@ -38,6 +38,16 @@
             .add-board {
                 float: right;
             }
+            .delete-board {
+                margin-left: 5px;
+                &:hover {
+                    cursor: pointer;
+                    color: $pink;
+                }
+                &:active {
+                    color: lighten($pink, 10);
+                }
+            }
         }
     }
     .board-body {

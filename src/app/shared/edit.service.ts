@@ -12,22 +12,22 @@ export class EditService {
   currentBoard: Board;
   boards: Board[];
 
-  constructor(private cookieService: CookieService) { 
-    if(this.cookieService.check('boards')){
+  constructor(private cookieService: CookieService) {
+    if (this.cookieService.check('boards')) {
       this.loadBoards();
-    } else{
-      this.boards =  new Array(
+    } else {
+      this.boards = new Array(
         new Board("Personal Board",
           [
-            new Column("Todo", 
-            ['Take pet to vet']),
-            new Column("Doing Today", 
-            ['Ask Sam for logo',
-              'Car Wash',
-              'Get Milk']),
-            new Column("Done", 
-            ['Plan for Party',
-              'Send Party Invite'])
+            new Column("Todo",
+              ['Take pet to vet']),
+            new Column("Doing Today",
+              ['Ask Sam for logo',
+                'Car Wash',
+                'Get Milk']),
+            new Column("Done",
+              ['Plan for Party',
+                'Send Party Invite'])
           ]
         )
       );
@@ -81,18 +81,19 @@ export class EditService {
   }
 
   deleteTask(taskIndex: number, columnIndex: number, boardIndex: number) {
-    console.log(this.boards);
     this.boards[boardIndex].columns[columnIndex].tasks.splice(taskIndex, 1);
     this.saveBoards();
   }
-
-  saveBoards(){
+  
+  saveBoards() {
     this.cookieService.set('boards', JSON.stringify(this.boards));
     this.loadBoards();
   }
-  
-  loadBoards(){
-    this.boards = JSON.parse(this.cookieService.get('boards'));
+
+  loadBoards() {
+    if(this.cookieService.check('boards')){
+      this.boards = JSON.parse(this.cookieService.get('boards'));
+    }
   }
 
 
