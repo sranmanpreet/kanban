@@ -137,10 +137,10 @@
                     bottom: 5px;
                     right: 20px;
                     font-size: 2rem;
-                    color: lighten($color: $pink, $amount: 30);
+                    color: darken($pink, 30);
                     &:hover {
                         cursor: pointer;
-                        color: lighten($color: $pink, $amount: 10);
+                        color: darken($pink, 10);
                     }
                     &:active {
                         color: $pink;

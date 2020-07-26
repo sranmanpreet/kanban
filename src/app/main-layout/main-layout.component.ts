@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Board } from '../shared/board.model';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { EditService } from '../shared/edit.service';
@@ -22,6 +22,8 @@ export class MainLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   board: Board;
   boardIndex: number;
+
+  @ViewChild('addTaskIcon') addTaskIcon: ElementRef;
 
   constructor(public dialog: MatDialog, private editService: EditService) {
     this.loadBoardDetails(0);
@@ -65,10 +67,10 @@ export class MainLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.loadBoardDetails(this.boardIndex);
   }
-  
-  deleteBoard(){
+
+  deleteBoard() {
     this.editService.deleteBoard(this.boardIndex);
-    this.loadBoardDetails(this.boardIndex);
+    this.loadBoardDetails((this.boardIndex ? this.boardIndex - 1 : 0));
   }
 
   addColumn() {

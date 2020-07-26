@@ -11,11 +11,18 @@ export class ColumnDialogComponent implements OnInit {
 
   @ViewChild('columnTitle') columnTitle: ElementRef;
 
+  newColumn: boolean;
+
   constructor(
     public dialogRef: MatDialogRef<ColumnDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Column) { }
 
   ngOnInit(): void {
+    if (this.data.title.length == 0){
+      this.newColumn = true;
+    } else {
+      this.newColumn = false;
+    }
   }
 
   onNoClick(): void {

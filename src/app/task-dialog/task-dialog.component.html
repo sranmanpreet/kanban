@@ -7,6 +7,6 @@
     </div>
 </div>
 <div mat-dialog-actions>
-    <button class="button is-primary is-small" [mat-dialog-close]="data" cdkFocusInitial type="button">Update</button>
+    <button class="button is-primary is-small" [mat-dialog-close]="data" cdkFocusInitial type="button">{{newTask? "Add":"Update"}}</button>
     <button class="button is-small" (click)="onNoClick()">Cancel</button>
 </div>

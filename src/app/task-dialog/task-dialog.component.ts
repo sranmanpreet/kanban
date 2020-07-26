@@ -9,12 +9,18 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class TaskDialogComponent implements OnInit {
 
   @ViewChild('task') task: ElementRef;
+  newTask: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<TaskDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit(): void {
+    if(this.data.task.length == 0){
+      this.newTask = true;
+    } else {
+      this.newTask = false;
+    }
   }
 
   onNoClick(): void {
