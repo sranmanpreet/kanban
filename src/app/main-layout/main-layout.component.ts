@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BoardDialogComponent } from '../board-dialog/board-dialog.component';
 import { ColumnDialogComponent } from '../column-dialog/column-dialog.component';
 import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
@@ -25,8 +26,12 @@ export class MainLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('addTaskIcon') addTaskIcon: ElementRef;
 
-  constructor(public dialog: MatDialog, private editService: EditService) {
-    this.loadBoardDetails(0);
+  constructor(public dialog: MatDialog, private editService: EditService, private cookieService: CookieService) {
+    if(cookieService.check('currentBoardIndex')){
+      this.loadBoardDetails(cookieService.get('currentBoardIndex'));
+    } else {
+      this.loadBoardDetails(0);
+    }
     this.editModeSubscription = this.editService.editModeObserver.subscribe(
       (flag) => {
         this.editMode = flag;
@@ -45,6 +50,7 @@ export class MainLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
   loadBoardDetails(boardIndex) {
     this.board = this.editService.boards[boardIndex];
     this.boardIndex = boardIndex;
+    this.cookieService.set('currentBoardIndex', boardIndex);
   }
 
 
