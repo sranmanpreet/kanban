@@ -34,6 +34,9 @@
                 &:active {
                     color: darken($white, 20);
                 }
+                span {
+                    font-size: 0.6rem;
+                }
             }
             .add-board {
                 float: right;
@@ -47,6 +50,7 @@
                 &:active {
                     color: lighten($pink, 10);
                 }
+                font-size: 0.6rem;
             }
         }
     }
@@ -77,6 +81,8 @@
                     font-size: 1.2rem;
                     text-transform: uppercase;
                     .editColumn {
+                        margin-right: 5px;
+                        font-size: 0.7rem;
                         &:hover {
                             cursor: pointer;
                             color: $blue;
@@ -86,9 +92,12 @@
                         }
                     }
                     .deleteColumn {
+                        margin-right: 5px;
+                        font-size: 0.8rem;
+                        color: $pink;
                         &:hover {
                             cursor: pointer;
-                            color: $pink;
+                            color: lighten($pink, 5);
                         }
                         &:active {
                             color: darken($pink, 10);
@@ -113,6 +122,7 @@
                         .editTask {
                             float: right;
                             margin-right: 3px;
+                            font-size: 0.5rem;
                             &:hover {
                                 color: $blue;
                             }
@@ -123,8 +133,10 @@
                         .deleteTask {
                             float: right;
                             margin-right: 3px;
+                            font-size: 0.6rem;
+                            color: $pink;
                             &:hover {
-                                color: $pink;
+                                color: lighten($pink, 5);
                             }
                             &:active {
                                 color: darken($pink, 10);
