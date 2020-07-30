@@ -149,6 +149,7 @@ export class MainLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         event.previousIndex,
         event.currentIndex);
     }
+    this.editService.saveBoards();
   }
 
   ngOnDestroy(): void {
